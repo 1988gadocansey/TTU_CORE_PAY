@@ -1,0 +1,41 @@
+
+<!--    <button (click)="signOut()" class="btn btn-success Facebook">Sign Out</button>-->
+
+    <div class="payment-form">
+    <p style="color:darkred"></p>
+    <form role="form" action="" method="post" enctype="text/plain">
+      <div class="input-field">
+        <div class="col-md-12">
+          <span class="field-validation-valid text-danger" data-valmsg-for="FeeItemId" data-valmsg-replace="true"></span>
+          <select  class="form-control" data-val="true" data-val-required="Please select a fee item" id="FeeItemId" name="FeeItemId" onchange="getPaymentInfo(this)"><option value="">Select fee item</option>
+
+
+            <option *ngFor="let product of productData; let i = index" [value]="productData[i].Id">
+              {{productData[i].name}}
+            </option>
+
+          </select>
+        </div>
+      </div>
+
+      <div class="input-field">
+        <div class="col-md-12">
+          <span class="field-validation-valid text-danger" data-valmsg-for="Amount" data-valmsg-replace="true"></span>
+          <input class="form-control input-lg" data-val="true" data-val-number="The field Amount must be a number." data-val-required="Please enter an amount" id="AMOUNT" name="Amount" placeholder="Amount" readonly="readonly" required="" type="text" value="0" />
+        </div>
+      </div>
+
+      <div class="input-field">
+        <div class="col-md-12">
+          <span class="field-validation-valid text-danger" data-valmsg-for="CurrencyId" data-valmsg-replace="true"></span>
+          <input class="form-control input-lg" data-val="true" data-val-required="Please select a currency" id="CurrencyId" name="CurrencyId" placeholder="Currency" readonly="readonly" required="" type="text" value="" />
+        </div>
+      </div>
+
+      <input id="loc" name="Loc" type="hidden" value="" />
+
+      <input class="btn proceed-btn" disabled type="submit" value="Proceed">
+    </form>
+  </div>
+
+
