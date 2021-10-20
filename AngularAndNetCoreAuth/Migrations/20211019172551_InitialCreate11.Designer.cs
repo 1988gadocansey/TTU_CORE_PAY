@@ -3,15 +3,17 @@ using System;
 using AngularAndNetCoreAuth.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AngularAndNetCoreAuth.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211019172551_InitialCreate11")]
+    partial class InitialCreate11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,17 +44,11 @@ namespace AngularAndNetCoreAuth.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
                     b.Property<string>("Indexno")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("LastAccessed")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
 
                     b.Property<string>("PaymentRemarks")
                         .HasColumnType("text");
@@ -60,9 +56,6 @@ namespace AngularAndNetCoreAuth.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -80,7 +73,12 @@ namespace AngularAndNetCoreAuth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("productId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("productId");
 
                     b.ToTable("Payment");
                 });
@@ -442,6 +440,13 @@ namespace AngularAndNetCoreAuth.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AngularAndNetCoreAuth.Models.Payment", b =>
+                {
+                    b.HasOne("AngularAndNetCoreAuth.Models.Product", "product")
+                        .WithMany()
+                        .HasForeignKey("productId");
                 });
 
             modelBuilder.Entity("AngularAndNetCoreAuth.Models.Student", b =>

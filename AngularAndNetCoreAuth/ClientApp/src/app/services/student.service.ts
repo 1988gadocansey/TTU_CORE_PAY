@@ -6,12 +6,16 @@ import {catchError} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  product: any=[]
+export class StudentService {
+  data: any=[]
+  private loginStatus = new BehaviorSubject<boolean>(this.getLoginStatus());
   constructor(private  httpClient: HttpClient) { }
 
   fetchData(): Observable<any> {
-    return this.httpClient.get("https://localhost:5001/api/product").pipe(
+   // const email =localStorage.getItem("email");
+    const email ="BTPMT20133@ttu.edu.gh";
+
+    return this.httpClient.get(`https://srms.ttuportal.com/api/student/email/${email}`).pipe(
       catchError(this.handleError)
     )
   }
@@ -29,18 +33,8 @@ export class ProductService {
     return throwError(
       'Something bad happened; please try again later.');
   }
-  private sub = new BehaviorSubject("v");
-  subj$ = this.sub.asObservable();
-
-  send(value: any) {
-    this.sub.next(value);
-    console.log(value);
+  getLoginStatus(): boolean {
+    return false;
   }
 
-  findById(Id: string): Observable<any> {
-    console.log(`https://localhost:5001/api/product/${Id}`)
-    return this.httpClient.get(`https://localhost:5001/api/Product/${Id}`).pipe(
-      catchError(this.handleError)
-    )
-  }
 }

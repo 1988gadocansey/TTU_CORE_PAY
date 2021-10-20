@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
@@ -10,8 +10,11 @@ import { HomeComponent } from './home/home.component';
 import {DashboardComponent} from "./dashboard/dashboard.component";
 
 
+
 import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import {CheckoutComponent} from "./checkout/checkout.component";
+import {TransactionComponent} from "./transaction/transaction.component";
 
 let config = new AuthServiceConfig([
   {
@@ -36,13 +39,16 @@ export function provideConfig() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    CheckoutComponent,
+    TransactionComponent
 
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ///Import SocialLoginModule
     SocialLoginModule.initialize(config),
     ///This isn't necessary. It's a just loader that I like :).
@@ -57,7 +63,9 @@ export function provideConfig() {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
-      { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' }
+      { path: 'transactions', component: TransactionComponent, pathMatch: 'full' },
+      { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' },
+      { path: 'checkout', component: CheckoutComponent, pathMatch: 'full' }
 
     ], { relativeLinkResolution: 'legacy' })
   ],

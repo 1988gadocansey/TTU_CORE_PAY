@@ -50,6 +50,7 @@ export class HomeComponent {
           result => {
             console.log('success', result);
             window.location.reload();
+            window.location.href="/dashboard";
 
           },
           error => {

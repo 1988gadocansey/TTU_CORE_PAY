@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Cors;
 using System;
 using System.Text;
+using AngularAndNetCoreAuth.Services;
 using Microsoft.OpenApi.Models;
 
 
@@ -31,13 +32,14 @@ namespace AngularAndNetCoreAuth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
+            services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
+            services.AddScoped<IMomo, MomoService>();
             
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(

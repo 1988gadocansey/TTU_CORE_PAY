@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import {AuthService} from "angularx-social-login";
-
-
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
@@ -43,5 +41,16 @@ export class NavMenuComponent {
     this.resultMessage = 'User has signed out';
     window.location.reload();
     window.location.href="/";
+  }
+
+  loggedIn() {
+   /* //return localStorage.getItem("token") ? true : false;
+     if(localStorage.getItem("token")!== null){
+
+    }
+    else{
+      return  this.signOut();
+    }*/
+
   }
 }

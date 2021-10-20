@@ -25,15 +25,21 @@
               [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item"
+          <li class="nav-item" *ngIf="userName"
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/dashboard']">Dashboard</a>
+<!--            <a class="nav-link text-dark" [routerLink]="['/dashboard']" *ngIf="loggedIn()">Dashboard</a>-->
+            <a class="nav-link text-dark" [routerLink]="['/dashboard']" >Dashboard</a>
+          </li>
+          <li class="nav-item" *ngIf="userName"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+             <a class="nav-link text-dark" [routerLink]="['/transactions']" >My Transactions</a>
           </li>
           <li *ngIf="userName" class="nav-item"
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">{{userName}}</a>
+            <a class="nav-link text-dark">{{userName}}</a>
           </li>
           <li *ngIf="userName" class="nav-item">
             <button (click)="signOut()" class="btn btn-success Facebook">Sign Out</button>

@@ -60,8 +60,8 @@ namespace AngularAndNetCoreAuth.Controllers
                     var loginKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey"));
 
                     var token = new JwtSecurityToken(
-                        issuer: "ifeoluwa",
-                        audience: "ifeoluwa",
+                        issuer: "TTU",
+                        audience: "TTU",
                         expires: DateTime.UtcNow.AddYears(1),
                         claims: claims,
                         signingCredentials: new SigningCredentials(loginKey, SecurityAlgorithms.HmacSha256)
