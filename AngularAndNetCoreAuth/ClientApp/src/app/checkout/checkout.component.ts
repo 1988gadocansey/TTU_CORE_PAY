@@ -20,10 +20,14 @@ export class CheckoutComponent implements OnInit {
   studentName: string
   email: string
   phone: string
+  level: string
   PaymentType: string
   productName: Subscription
   amount: number
   status:string
+  //For the loader
+  public loading = false;
+
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private studentService: StudentService,private readonly activatedRoute: ActivatedRoute,private httpClient: HttpClient) {
     this.subscription =  productService.subj$.subscribe(value=>{
       //console.log(typeof(value.data))
@@ -38,6 +42,7 @@ export class CheckoutComponent implements OnInit {
       FeeItemId: [''],
       Merchant: [''],
       Phone: [''],
+      Level: [''],
       PaymentMethod: [''],
 
 
@@ -46,13 +51,11 @@ export class CheckoutComponent implements OnInit {
 
   getData(): any {
     return this.studentService.fetchData().subscribe(data => {
-
       this.indexno=data.data.INDEXNO
       this.email=data.data.EMAIL
       this.studentName=data.data.NAME
       this.phone=data.data.TELEPHONENO
-
-
+      this.level=data.data.LEVEL
 
     })
   }
@@ -67,12 +70,14 @@ export class CheckoutComponent implements OnInit {
     this.getData()
   }
   submit() {
+    this.loading = true;
     const headers =  { 'content-type': 'application/json'}
 
 
   const body = { 'WalletType': this.checkoutForm.get('PaymentMethod').value,'Amount': this.checkoutForm.get('Amount').value,'Phone': this.checkoutForm.get('Phone').value,
     'Indexno': this.checkoutForm.get('IndexNo').value,'Name':this.checkoutForm.get('Name').value,
     'Email': this.checkoutForm.get('Email').value,
+    'Level': this.checkoutForm.get('Level').value,
     'Bank': '1233',
     'AcademicYear':'2021/2022'
     }
@@ -81,7 +86,10 @@ export class CheckoutComponent implements OnInit {
     this.httpClient.post('https://localhost:5001/api/Transaction', body,{'headers':headers}).subscribe(
       (response) => this.status=response.toString(),
       (error) => this.status=error.toString(),
+
     )
+    window.location.reload()
+    window.location.href="/transactions";
   }
 
 

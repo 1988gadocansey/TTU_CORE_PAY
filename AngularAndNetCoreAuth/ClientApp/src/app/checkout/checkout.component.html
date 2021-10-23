@@ -3,9 +3,9 @@
     <div class="py-5 text-center">
       <img class="d-block mx-auto mb-4" class="img-fluid" src="assets/pay.png" alt="">
       <h2>Checkout</h2>
-      <p class="lead">Make sure the data entered is correct.Transaction once sent cannot be cancelled</p>
+      <p class="lead">Make sure the data entered is correct.Transaction once sent cannot be cancelled.</p>
     </div>
-
+    <ngx-loading [show]="loading"></ngx-loading>
     <div *ngIf="status" class="alert alert-success text-center" role="alert">
       {{status}}
     </div>
@@ -63,6 +63,7 @@
               <label for="firstName" class="form-label">Index No</label>
               <input type="text" class="form-control" id="firstName" placeholder="" value="" readonly [value]="indexno">
               <input type="hidden" [ngModel]="indexno" formControlName="IndexNo">
+              <input type="hidden" [ngModel]="level" formControlName="Level">
             </div>
 
             <div class="col-sm-6">

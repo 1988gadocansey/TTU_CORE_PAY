@@ -13,7 +13,7 @@ export class StudentService {
 
   fetchData(): Observable<any> {
    // const email =localStorage.getItem("email");
-    const email ="BTPMT20133@ttu.edu.gh";
+    const email =  localStorage.getItem('email')
 
     return this.httpClient.get(`https://srms.ttuportal.com/api/student/email/${email}`).pipe(
       catchError(this.handleError)

@@ -21,20 +21,24 @@ export class TransactionComponent {
   }
 
   ngOnInit() {
-    return this.fetchTransaction()
+
+    console.log("email is "+localStorage.getItem('email'))
+    this.fetchTransaction()
+
   }
 
-  fetchTransaction(): Subscription {
+  fetchTransaction(): any {
 
     this.studentService.fetchData().subscribe(data => {
-      this.studentIndexNo = data.data.Indexno
+
+      return this.transactionService.fetchData(data.data.INDEXNO).subscribe(data => {
+        this.transactions = data
+
+
+      })
     })
 
-    return this.transactionService.fetchData(this.studentIndexNo).subscribe(data => {
-      this.transactions = data
 
-
-    })
   }
 
 

@@ -41,6 +41,7 @@ export class HomeComponent {
           FirstName: response.firstName,
           LastName: response.lastName,
           EmailAddress: response.email,
+          TTUEmail: response.email,
           PictureUrl: response.photoUrl,
           OauthToken: response.authToken
         });
@@ -48,8 +49,10 @@ export class HomeComponent {
         // Take the array and send to our account.service.login method
         this.accountService.Login(this.userData[0]).subscribe(
           result => {
+            localStorage.setItem('email', response.email);
             console.log('success', result);
-            window.location.reload();
+           window.location.reload();
+           // console.log('success', result);
             window.location.href="/dashboard";
 
           },
@@ -58,7 +61,9 @@ export class HomeComponent {
             console.log(error);
             this.loading = false;
           }
+
         );
+
       },
       error => {
         console.log(error);

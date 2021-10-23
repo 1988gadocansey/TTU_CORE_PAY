@@ -58,6 +58,7 @@ namespace AngularAndNetCoreAuth.Controllers
                         ProductId =payment.ProductId,
                         Email = payment.Email,
                         Name = payment.Name,
+                        Level = payment.Level,
                         WalletType=payment.WalletType,
                         PaymentRemarks = "Mobile Payment"
                         
@@ -79,7 +80,7 @@ namespace AngularAndNetCoreAuth.Controllers
         public ActionResult<IQueryable<Payment>> GetTransactions()
         {
             var result = _db.Product as IQueryable<Payment>;
-            return Ok(result.Where(p => p.Status == true).OrderBy(p => p.TransactionDate));
+            return Ok(result.Where(p => p.Status == true).OrderByDescending(p => p.TransactionDate));
         }
          
         [HttpGet("Find/{*token}")]

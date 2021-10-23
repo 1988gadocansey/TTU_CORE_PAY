@@ -11,6 +11,7 @@ namespace AngularAndNetCoreAuth.Models
         public  string Indexno { get; set; }
         public  string Name { get; set; }
         public  string Email { get; set; }
+        public  string Level { get; set; }
         
         public Guid ProductId { get; set; }
         

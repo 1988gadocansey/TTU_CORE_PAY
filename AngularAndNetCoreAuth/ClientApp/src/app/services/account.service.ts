@@ -20,7 +20,7 @@ export class AccountService {
   private username = new BehaviorSubject<string>(localStorage.getItem('username'));
   private userRole = new BehaviorSubject<string>(localStorage.getItem('userRole'));
   private UserId = new BehaviorSubject<string>(localStorage.getItem('UserId'));
-  private email = new BehaviorSubject<string>(localStorage.getItem('email'));
+  private EmailAddress = new BehaviorSubject<string>(localStorage.getItem('email'));
 
 
 
@@ -39,7 +39,7 @@ export class AccountService {
     return this.username;
   }
   get Email() {
-    return this.email;
+    return this.EmailAddress;
   }
   get CurrentUserRole() {
     return this.userRole;
@@ -51,10 +51,11 @@ export class AccountService {
       map(result => {
 
         if (result && result.message != null) {
-          console.log(result);
+          console.log(result.toString());
           this.loginStatus.next(true);
           localStorage.setItem('username', result.username);
-          localStorage.setItem('email', result.email);
+          //localStorage.setItem('email', result.email);
+          //localStorage.setItem('ttuemail', result.email);
           localStorage.setItem('userRole', result.userRole);
           localStorage.setItem('loginStatus', '1');
           localStorage.setItem('UserId', result.id);

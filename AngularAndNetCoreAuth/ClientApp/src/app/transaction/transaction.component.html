@@ -2,36 +2,45 @@
 <!--    <button (click)="signOut()" class="btn btn-success Facebook">Sign Out</button>-->
 <div class="container">
 
-  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+  <table id="dtBasicExample" class="table table-striped table-bordered table-sm table-responsive" >
     <thead>
     <tr>
-      <th class="th-sm">Index No
+      <th class="th-sm">No
+      <th class="th-sm">Name
       </th>
-      <th class="th-sm">Position
+      <th class="th-sm">IndexNo
       </th>
-      <th class="th-sm">Office
+      <th class="th-sm">Level
       </th>
-      <th class="th-sm">Age
+      <th class="th-sm">FeeItem
       </th>
-      <th class="th-sm">Start date
+      <th class="th-sm">AmountPaid
       </th>
-      <th class="th-sm">Salary
+      <th class="th-sm">MomoType
+      </th>
+      <th class="th-sm">MomoNo
+      </th>
+      <th class="th-sm">Status</th>
+      <th class="th-sm">TransactionId</th>
+      <th class="th-sm">TransactionDate
+
       </th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let transaction of transactions; let i = index">
-      <td>qw1{{transaction.Indexno}}</td>
-      <td>{{transaction.ProductId}}</td>
-      <td>{{transaction.Amount}}</td>
-      <td>{{transaction.Bank}}</td>
-      <td>{{transaction.AcademicYear}}</td>
-      <td>{{transaction.PaymentRemarks}}</td>
-      <td>{{transaction.Phone}}</td>
-      <td>{{transaction.Status}}</td>
-      <td>{{transaction.WalletType}}</td>
-      <td>{{transaction.TransactionId}}</td>
-      <td>{{transaction.TransactionDate}}</td>
+      <td>{{i}}</td>
+      <td>{{transaction.name}}</td>
+      <td>{{transaction.indexno}}</td>
+      <td>{{transaction.level}}</td>
+      <td>{{transaction.productId}}</td>
+      <td class="text-primary">{{transaction.amount}}</td>
+      <td class="">{{transaction.walletType}}</td>
+      <td class="">{{transaction.phone}}</td>
+      <td class="text-primary">{{transaction.status}}</td>
+      <td>{{transaction.transactionId}}</td>
+      <td>{{transaction.transactionDate|date}}</td>
+
 
     </tr>
     </tbody>
