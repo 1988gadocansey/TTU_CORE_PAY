@@ -84,16 +84,11 @@ export class AccountService {
     localStorage.removeItem('PictureUrl');
               //Check console for results
     console.log('User Logged out successfully');
+    window.location.href="/";
   }
 
   loggedIn() {
-    //return localStorage.getItem("token") ? true : false;
-    if(localStorage.getItem("token")!== null){
-
-    }
-    else{
-     return  this.Logout();
-    }
-
+   // return localStorage.getItem("token") ? true : false;
+    return !!localStorage.getItem("token")
   }
 }

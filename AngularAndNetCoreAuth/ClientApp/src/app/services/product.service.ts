@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {BehaviorSubject, Observable, throwError} from "rxjs";
+import {BehaviorSubject, Observable, Subscription, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 
 @Injectable({
@@ -38,9 +38,25 @@ export class ProductService {
   }
 
   findById(Id: string): Observable<any> {
-    console.log(`https://localhost:5001/api/product/${Id}`)
+
     return this.httpClient.get(`https://localhost:5001/api/Product/${Id}`).pipe(
       catchError(this.handleError)
     )
+  }
+  getProductName(product: string):Subscription{
+   return this.findById(product).subscribe(
+     (response) => {                           //next() callback
+       console.log('response received')
+
+     },
+     (error) => {                              //error() callback
+       console.error('Request failed with error')
+
+     },
+     () => {                                   //complete() callback
+       console.error('Request completed')      //This is actually not needed
+
+     })
+
   }
 }

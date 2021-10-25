@@ -11,7 +11,7 @@ export class TransactionService {
   constructor(private  httpClient: HttpClient) { }
 
   fetchData(IndexNo:string): Observable<any> {
-    console.log("transactions are " + `https://localhost:5001/api/Transaction/Find?indexno=${IndexNo}`)
+    //console.log("transactions are " + `https://localhost:5001/api/Transaction/Find?indexno=${IndexNo}`)
     return this.httpClient.get(`https://localhost:5001/api/Transaction/Find?indexno=${IndexNo}`).pipe(
       catchError(this.handleError)
     )

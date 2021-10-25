@@ -25,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   productName: Subscription
   amount: number
   status:string
+  paymentProductSelect:string
   //For the loader
   public loading = false;
 
@@ -35,15 +36,15 @@ export class CheckoutComponent implements OnInit {
     })
     this.checkoutForm = this.formBuilder.group({
 
-      Amount: [''],
+      Amount: ['',],
       Name: [''],
       Email: [''],
       IndexNo: [''],
       FeeItemId: [''],
       Merchant: [''],
-      Phone: [''],
+      Phone: ['',[Validators.required]],
       Level: [''],
-      PaymentMethod: [''],
+      PaymentMethod: ['',[Validators.required]],
 
 
     })
@@ -61,7 +62,7 @@ export class CheckoutComponent implements OnInit {
   }
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((query) => {
-      this.PaymentType=query.FeeItemId
+      this.paymentProductSelect=query.FeeItemId
       this.productName = this.productService.findById(query.FeeItemId).subscribe(data=>{
         this.productName=data
       });
@@ -78,6 +79,7 @@ export class CheckoutComponent implements OnInit {
     'Indexno': this.checkoutForm.get('IndexNo').value,'Name':this.checkoutForm.get('Name').value,
     'Email': this.checkoutForm.get('Email').value,
     'Level': this.checkoutForm.get('Level').value,
+    'ProductId': this.paymentProductSelect,
     'Bank': '1233',
     'AcademicYear':'2021/2022'
     }

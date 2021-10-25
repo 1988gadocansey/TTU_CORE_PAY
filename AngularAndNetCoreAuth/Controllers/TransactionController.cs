@@ -42,8 +42,7 @@ namespace AngularAndNetCoreAuth.Controllers
         {
             try
             {
-                const string bank = "123444";
-                const string academicYear = "2021/2022";
+                
                 _db.Payment.AddAsync(
                     new Payment()
                     {
@@ -64,6 +63,8 @@ namespace AngularAndNetCoreAuth.Controllers
                         
                     });
                 _db.SaveChanges();
+                // If true send the payment to prudential API
+                // if prudential return true then update SRMS of the payment.
                 return Ok("Transaction Successful");
             }
             catch (Exception e)

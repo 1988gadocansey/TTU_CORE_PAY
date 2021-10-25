@@ -8,13 +8,12 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import {DashboardComponent} from "./dashboard/dashboard.component";
-
-
-
+import {AuthGuard} from "./auth.guard"
 import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import {CheckoutComponent} from "./checkout/checkout.component";
 import {TransactionComponent} from "./transaction/transaction.component";
+
 
 let config = new AuthServiceConfig([
   {
@@ -62,18 +61,19 @@ export function provideConfig() {
     }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
-      { path: 'transactions', component: TransactionComponent, pathMatch: 'full' },
-      { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' },
-      { path: 'checkout', component: CheckoutComponent, pathMatch: 'full' }
+      { path: 'dashboard', component: DashboardComponent, pathMatch: 'full',canActivate:[AuthGuard] },
+      { path: 'transactions', component: TransactionComponent, pathMatch: 'full',canActivate:[AuthGuard] },
+      { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' ,canActivate:[AuthGuard]},
+      { path: 'checkout', component: CheckoutComponent, pathMatch: 'full',canActivate:[AuthGuard] }
 
     ], { relativeLinkResolution: 'legacy' })
   ],
   providers: [
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
-    }
+      useFactory: provideConfig,
+    },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
