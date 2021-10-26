@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {AuthGuard} from "./auth.guard"
 import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
@@ -17,6 +17,9 @@ import {TokenInterceptorService} from "./services/token-interceptor.service";
 import {ErrorInterceptor} from "./errorInterceptor";
 import {AccountService} from "./services/account.service";
 import {JwtModule} from "@auth0/angular-jwt";
+import { AppRoutingModule } from './app-routing.module';
+import { AppLayoutComponent } from './layouts/app-layout.component';
+import {HomeComponent} from "./home/home.component";
 
 
 let config = new AuthServiceConfig([
@@ -43,10 +46,12 @@ export function provideConfig() {
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
+HomeComponent,
+
     DashboardComponent,
     CheckoutComponent,
-    TransactionComponent
+    TransactionComponent,
+    AppLayoutComponent
 
   ],
   imports: [
@@ -65,14 +70,8 @@ export function provideConfig() {
       secondaryColour: '#ffffff',
       tertiaryColour: '#ffffff'
     }),
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, pathMatch: 'full',canActivate:[AuthGuard] },
-      { path: 'transactions', component: TransactionComponent, pathMatch: 'full',canActivate:[AuthGuard] },
-      { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' ,canActivate:[AuthGuard]},
-      { path: 'checkout', component: CheckoutComponent, pathMatch: 'full',canActivate:[AuthGuard] }
 
-    ], { relativeLinkResolution: 'legacy' }),
+    AppRoutingModule
 
   ],
   providers: [

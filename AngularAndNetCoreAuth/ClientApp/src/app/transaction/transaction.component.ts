@@ -24,17 +24,21 @@ export class TransactionComponent implements   OnInit{
 
   ngOnInit() {
 
-    //console.log("email is "+localStorage.getItem('email'))
+
     this.fetchTransaction()
 
   }
 
   fetchTransaction(): any {
-
+    this.loading = true;
     this.studentService.fetchData().subscribe(data => {
 
       return this.transactionService.fetchData(data.data.INDEXNO).subscribe(data => {
         this.transactions = data
+
+          this.loading=false
+
+
 
 
       })
