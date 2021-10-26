@@ -13,6 +13,10 @@ import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import {CheckoutComponent} from "./checkout/checkout.component";
 import {TransactionComponent} from "./transaction/transaction.component";
+import {TokenInterceptorService} from "./services/token-interceptor.service";
+import {ErrorInterceptor} from "./errorInterceptor";
+import {AccountService} from "./services/account.service";
+import {JwtModule} from "@auth0/angular-jwt";
 
 
 let config = new AuthServiceConfig([
@@ -28,7 +32,9 @@ let config = new AuthServiceConfig([
     provider: new FacebookLoginProvider(FaceBookAppId);
   },*/
 ]);
-
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 export function provideConfig() {
   return config;
 }
@@ -66,14 +72,22 @@ export function provideConfig() {
       { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' ,canActivate:[AuthGuard]},
       { path: 'checkout', component: CheckoutComponent, pathMatch: 'full',canActivate:[AuthGuard] }
 
-    ], { relativeLinkResolution: 'legacy' })
+    ], { relativeLinkResolution: 'legacy' }),
+
   ],
   providers: [
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig,
     },
-    AuthGuard
+    AuthGuard,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:TokenInterceptorService,
+      multi:true
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
   ],
   bootstrap: [AppComponent]
 })

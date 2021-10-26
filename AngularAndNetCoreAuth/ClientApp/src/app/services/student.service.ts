@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 
@@ -14,8 +14,12 @@ export class StudentService {
   fetchData(): Observable<any> {
    // const email =localStorage.getItem("email");
     const email =  localStorage.getItem('email')
-
-    return this.httpClient.get(`https://srms.ttuportal.com/api/student/email/${email}`).pipe(
+ /*   const headers = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('Access-Control-Allow-Headers', 'Content-Type')
+      .append('Access-Control-Allow-Methods', 'GET')
+      .append('Access-Control-Allow-Origin', '*');*/
+    return this.httpClient.get(`srms/student/email/${email}` ).pipe(
       catchError(this.handleError)
     )
   }

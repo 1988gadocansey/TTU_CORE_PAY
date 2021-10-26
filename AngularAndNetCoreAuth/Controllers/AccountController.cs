@@ -123,6 +123,20 @@ namespace AngularAndNetCoreAuth.Controllers
 
         }
 
+        public async Task<IActionResult> ValidateToken()
+        {
+            /*var token = new JwtSecurityToken(
+                issuer: "TTU",
+                audience: "TTU",
+                expires: DateTime.UtcNow.AddYears(1),
+                claims: claims,
+                signingCredentials: new SigningCredentials(loginKey, SecurityAlgorithms.HmacSha256)
+            );*/
+            return Ok();
+
+        }
+        
+
 
     }
 }

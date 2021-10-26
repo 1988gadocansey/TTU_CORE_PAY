@@ -64,6 +64,8 @@ export class AccountService {
           localStorage.setItem('PictureUrl', result.pictureUrl);
           //Check console for results
           console.log('We sent a message to our Controller API. It works');
+
+         // localStorage.setItem('TokenInfo', JSON.stringify(result));
         }
         return result;
       })
@@ -90,5 +92,8 @@ export class AccountService {
   loggedIn() {
    // return localStorage.getItem("token") ? true : false;
     return !!localStorage.getItem("token")
+  }
+  getToken(){
+    return localStorage.getItem("token")
   }
 }

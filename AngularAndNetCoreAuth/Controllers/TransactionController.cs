@@ -14,7 +14,7 @@ using RestSharp;
 namespace AngularAndNetCoreAuth.Controllers
 {
     [Route("api/[controller]")] 
-   // [Authorize]
+   [Authorize]
     [ApiController]
     [EnableCors("EnableCors")]
     [Produces("application/json")]

@@ -47,13 +47,17 @@ namespace AngularAndNetCoreAuth
 
 
             ///Enable CORS. Search for the AspNetCore Cors package and add it if you have any issues.
-            services.AddCors(option =>
+            /*services.AddCors(option =>
             {
                 option.AddPolicy("EnableCors", builder =>
                 {
                     builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
                 });
 
+            });*/
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowMyOrigin", options => options.WithOrigins(Configuration.GetSection("AllowedOrigins").Get<string[]>()));
             });
 
             ///Add Microsoft.AspNetCore.Authentication.JwtBearer package to be able to use JwtBearer.
@@ -72,8 +76,8 @@ namespace AngularAndNetCoreAuth
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = "ifeoluwa",
-                    ValidAudience = "ifeoluwa",
+                    ValidIssuer = "TTU",
+                    ValidAudience = "TTU",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey"))
                 };
             });
