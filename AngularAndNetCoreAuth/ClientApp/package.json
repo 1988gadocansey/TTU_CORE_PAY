@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "-": "^0.0.1",
     "@angular/animations": "8.2.12",
     "@angular/common": "8.2.12",
     "@angular/compiler": "8.2.12",
@@ -24,15 +25,18 @@
     "@auth0/angular-jwt": "^4.2.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "8.1.1",
+    "angularx": "^0.0.12",
     "angularx-social-login": "^2.2.1",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
     "jquery": "3.4.1",
+    "login": "^0.8.0",
     "ngx-loading": "^8.0.0",
     "oidc-client": "^1.10.1",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.4",
+    "social": "^0.4.0",
     "zone.js": "0.9.1"
   },
   "devDependencies": {

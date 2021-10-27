@@ -22,22 +22,15 @@ import { AppLayoutComponent } from './layouts/app-layout.component';
 import {HomeComponent} from "./home/home.component";
 
 
-let config = new AuthServiceConfig([
+const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    //Use your Google App Id here
-
     provider: new GoogleLoginProvider("47245809803-ve5n9kc64qc4l48uoj7bn592rptg6cdc.apps.googleusercontent.com")
-  },
-  /*{
-    id: FacebookLoginProvider.PROVIDER_ID,
-        //Use your FaceBook App Id here
-    provider: new FacebookLoginProvider(FaceBookAppId);
-  },*/
+
+  }
+
 ]);
-export function tokenGetter() {
-  return localStorage.getItem("token");
-}
+
 export function provideConfig() {
   return config;
 }
@@ -60,7 +53,8 @@ HomeComponent,
     FormsModule,
     ReactiveFormsModule,
     ///Import SocialLoginModule
-    SocialLoginModule.initialize(config),
+   // SocialLoginModule.initialize(config),
+    SocialLoginModule,
     ///This isn't necessary. It's a just loader that I like :).
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.circle,
@@ -88,6 +82,14 @@ HomeComponent,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
   ],
+
+
+
+
+
+
+
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
