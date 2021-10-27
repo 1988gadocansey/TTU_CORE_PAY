@@ -51,7 +51,7 @@ export class AccountService {
       map(result => {
 
         if (result && result.message != null) {
-          console.log(result.toString());
+         // console.log(result.toString());
           this.loginStatus.next(true);
           localStorage.setItem('username', result.username);
           //localStorage.setItem('email', result.email);
@@ -63,7 +63,7 @@ export class AccountService {
           localStorage.setItem('tokenExpiration', result.expiration);
           localStorage.setItem('PictureUrl', result.pictureUrl);
           //Check console for results
-          console.log('We sent a message to our Controller API. It works');
+          //console.log('We sent a message to our Controller API. It works');
 
          // localStorage.setItem('TokenInfo', JSON.stringify(result));
         }

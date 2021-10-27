@@ -20,7 +20,7 @@ namespace AngularAndNetCoreAuth.Services
     {
         public void Authenticate();
 
-        public  string DebitWallet(string walletType, string senderName, string senderNumber, decimal amount,
+        public  int DebitWallet(string walletType, string senderName, string senderNumber, decimal amount,
             string transactionId, string remarks);
 
         public  string CreditWallet(string walletType, string receipientName, string receipientNumber,

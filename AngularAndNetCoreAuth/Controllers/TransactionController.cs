@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Transactions;
 using AngularAndNetCoreAuth.Data;
 using AngularAndNetCoreAuth.Models;
 using AngularAndNetCoreAuth.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -23,8 +25,8 @@ namespace AngularAndNetCoreAuth.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IMomo _momoService;
         private  LoginViewModel _userdata;
+        
        
-        // private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<TransactionController> _logger;
 
         public TransactionController(ApplicationDbContext db, ILogger<TransactionController> logger, IMomo momoService)
@@ -32,6 +34,7 @@ namespace AngularAndNetCoreAuth.Controllers
             _db = db;
             _logger = logger;
             _momoService = momoService;
+            
             
         }
 
@@ -42,30 +45,59 @@ namespace AngularAndNetCoreAuth.Controllers
         {
             try
             {
-                
-                _db.Payment.AddAsync(
-                    new Payment()
+
+
+               
+                    // If true send the payment to prudential API
+                    // if prudential return true then update SRMS of the payment.
+                    var TransactionId=Guid.NewGuid();
+                    var PBlRequest=    _momoService.DebitWallet(
+                        payment.WalletType,
+                        payment.Name,
+                        payment.Phone,
+                        payment.Amount,
+                        TransactionId.ToString(),
+                        "TTU Fee Payment"
+                    
+                    );
+                    if (PBlRequest==200)
                     {
-                        Amount=payment.Amount,
-                        Status=true,
-                        Bank=payment.Bank,
-                        AcademicYear=payment.AcademicYear,
-                        Phone = payment.Phone,
-                        Indexno = payment.Indexno,
-                        TransactionId= Guid.NewGuid(),
-                        TransactionDate= DateTime.Now,
-                        ProductId =payment.ProductId,
-                        Email = payment.Email,
-                        Name = payment.Name,
-                        Level = payment.Level,
-                        WalletType=payment.WalletType,
-                        PaymentRemarks = "Mobile Payment"
-                        
-                    });
-                _db.SaveChanges();
-                // If true send the payment to prudential API
-                // if prudential return true then update SRMS of the payment.
-                return Ok("Transaction Successful");
+                       
+                        _db.Payment.AddAsync(
+                            new Payment()
+                            {
+                                Amount = payment.Amount,
+                                Status = true,
+                                Bank = payment.Bank,
+                                AcademicYear = payment.AcademicYear,
+                                Phone = payment.Phone,
+                                Indexno = payment.Indexno,
+                                TransactionId = Guid.NewGuid(),
+                                TransactionDate = DateTime.Now,
+                                ProductId = payment.ProductId,
+                                Email = payment.Email,
+                                Name = payment.Name,
+                                Level = payment.Level,
+                                WalletType = payment.WalletType,
+                                PaymentRemarks = "Mobile Payment"
+
+                            });
+                        _db.SaveChanges();
+
+
+
+                        return Ok("Transaction Successful");
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Unable to reach PBL Service. Contact Prudential Bank.");
+
+                        return BadRequest("Enable to reach PBL Service. Contact Prudential Bank");
+                    }
+                
+                   
+
+                 
             }
             catch (Exception e)
             {

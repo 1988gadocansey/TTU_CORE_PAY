@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Mime;
 using System.Runtime.InteropServices;
 using Microsoft.IdentityModel.Protocols;
@@ -11,10 +12,10 @@ namespace AngularAndNetCoreAuth.Services
     public class MomoService : IMomo
     {
         //private static string url = "http://digihub.prudentialbank.com.gh:8080/MobileMoneyPayment/api/Transaction";
-        private static string url = "https://acs2test.quipugmbh.com:5443";
-        private const string username = "";
-        private const string password = "";
-        private const string clientAuth = "";
+        private static string url = "https://digihub.prudentialbank.com.gh/MobileMoneyPayment/api/Transaction";
+        private const string username = "AD411E74-28C2-4BF9-8F9D-D5B7E22F9226";
+        private const string password = "Temp123$";
+        private const string clientAuth = "momoapi.user.ttu";
         public void Authenticate()
         {
             Console.WriteLine("hello auth");
@@ -23,7 +24,7 @@ namespace AngularAndNetCoreAuth.Services
          * walletType eg mtn, voda, airtiel
          * URL /DebitWallet
          */
-        public string DebitWallet(string walletType, string senderName, string senderNumber, decimal amount, string transactionId,
+        public int DebitWallet(string walletType, string senderName, string senderNumber, decimal amount, string transactionId,
             string remarks)
         {
             var client= new RestClient($"{url}/DebitWallet");
@@ -42,7 +43,9 @@ namespace AngularAndNetCoreAuth.Services
             });
             var  response =  client.Execute(request);
             var responseData = response.Content;
-            return responseData;
+            HttpStatusCode statusCode = response.StatusCode;
+            int numericStatusCode = (int)statusCode;
+            return numericStatusCode;
         }
         /**
          * URL /CreditWallet
