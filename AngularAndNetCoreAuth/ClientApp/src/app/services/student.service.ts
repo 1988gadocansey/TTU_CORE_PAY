@@ -12,14 +12,11 @@ export class StudentService {
   constructor(private  httpClient: HttpClient) { }
 
   fetchData(): Observable<any> {
-   // const email =localStorage.getItem("email");
-    const email =  localStorage.getItem('email')
- /*   const headers = new HttpHeaders()
-      .append('Content-Type', 'application/json')
-      .append('Access-Control-Allow-Headers', 'Content-Type')
-      .append('Access-Control-Allow-Methods', 'GET')
-      .append('Access-Control-Allow-Origin', '*');*/
-    return this.httpClient.get(`srms/student/email/${email}` ).pipe(
+    const email =localStorage.getItem("email");
+    //const email = "0718000624@ttu.edu.gh"
+
+    console.log(`https://localhost:5001/api/Student?Email=${email}`)
+    return this.httpClient.get(`api/Student?Email=${email}` ).pipe(
       catchError(this.handleError)
     )
   }

@@ -16,7 +16,7 @@ const routes: Routes = [
     children: [
 
       { path: 'dashboard', component: DashboardComponent, pathMatch: 'full',canActivate:[AuthGuard] },
-      { path: 'transactions', component: TransactionComponent, pathMatch: 'full',canActivate:[AuthGuard] },
+      { path: 'transactions', component: TransactionComponent, pathMatch: 'full' },
       { path: 'Sign Out', component: HomeComponent, pathMatch: 'full' ,canActivate:[AuthGuard]},
       { path: 'checkout', component: CheckoutComponent, pathMatch: 'full',canActivate:[AuthGuard] }
 

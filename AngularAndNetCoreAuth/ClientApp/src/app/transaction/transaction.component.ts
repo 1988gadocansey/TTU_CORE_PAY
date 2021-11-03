@@ -32,8 +32,11 @@ export class TransactionComponent implements   OnInit{
   fetchTransaction(): any {
     this.loading = true;
     this.studentService.fetchData().subscribe(data => {
+      let students = JSON.parse(data)
+      let studentIndexno=students.INDEXNO
+      console.log("indexno IS "+ students.INDEXNO)
 
-      return this.transactionService.fetchData(data.data.INDEXNO).subscribe(data => {
+      return this.transactionService.fetchData(studentIndexno).subscribe(data => {
         this.transactions = data
 
           this.loading=false

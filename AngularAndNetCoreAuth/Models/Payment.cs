@@ -26,7 +26,7 @@ namespace AngularAndNetCoreAuth.Models
         // actual phone no used for the payment
         [Required] public string Phone { get; set; }
         [Required] public bool Status { get; set; }
-        [Required] public Guid TransactionId { get; set; }
+        [Required] public string TransactionId { get; set; }
 
         [Required] public string WalletType { get; set; } // eg mtn, voda, airtel, mastercard...
 

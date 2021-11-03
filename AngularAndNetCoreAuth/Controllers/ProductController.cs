@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using RestSharp;
 
 namespace AngularAndNetCoreAuth.Controllers
 {
@@ -157,5 +158,6 @@ namespace AngularAndNetCoreAuth.Controllers
                 return ValidationProblem(e.Message);
             }
         }
+         
     }
 }

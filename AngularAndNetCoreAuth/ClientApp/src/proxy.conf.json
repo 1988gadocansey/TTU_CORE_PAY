@@ -1,18 +1,11 @@
 {
-  "/srms/*": {
-    "target": "https://srms.ttuportal.com/api",
-    "secure": true,
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/srms": ""
-    }
-  },
+
   "/api": {
-    "target": "https://localhost:5001",
+    "target": "https://pay.ttuportal.com",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/api": "https://localhost:5001"
+      "^/api": "https://pay.ttuportal.com"
     }
   }
 

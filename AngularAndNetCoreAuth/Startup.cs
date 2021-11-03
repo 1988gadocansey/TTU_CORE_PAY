@@ -14,9 +14,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Cors;
 using System;
 using System.Text;
+using AngularAndNetCoreAuth.Middleware;
 using AngularAndNetCoreAuth.Services;
 using Microsoft.OpenApi.Models;
-
+ 
 
 namespace AngularAndNetCoreAuth
 {
@@ -33,7 +34,10 @@ namespace AngularAndNetCoreAuth
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddControllersWithViews();
-            services.AddControllers().AddNewtonsoftJson();
+            //services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(opt=>{
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -81,6 +85,7 @@ namespace AngularAndNetCoreAuth
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey"))
                 };
             });
+            
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "TTU Payment API",
@@ -109,7 +114,7 @@ namespace AngularAndNetCoreAuth
             app.UseFileServer();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
-
+           // app.UseMiddleware<AuthenticationMiddleware>();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();

@@ -39,7 +39,7 @@ export class ProductService {
 
   findById(Id: string): Observable<any> {
 
-    return this.httpClient.get(`https://localhost:5001/api/Product/${Id}`).pipe(
+    return this.httpClient.get(`api/Product/${Id}`).pipe(
       catchError(this.handleError)
     )
   }

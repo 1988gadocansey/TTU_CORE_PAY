@@ -20,7 +20,7 @@ namespace AngularAndNetCoreAuth.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            //modelBuilder.UseSerialColumns();
             modelBuilder.Entity<UserData>().Property(x => x.Id);
             modelBuilder.Entity<Student>().Property(x => x.Id);
             modelBuilder.Entity<Product>().Property(x => x.Id);
@@ -28,11 +28,13 @@ namespace AngularAndNetCoreAuth.Data
             
             
         }
+        
 
         public DbSet<UserData> UserData { get; set; }
         public DbSet<Payment> Payment{ get; set; }
         public DbSet<Product> Product{ get; set; }
         public DbSet<Student> Student{ get; set; }
+         
 
     }
 

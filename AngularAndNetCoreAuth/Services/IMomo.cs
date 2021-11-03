@@ -13,6 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
+using System;
 using System.Threading.Tasks;
 namespace AngularAndNetCoreAuth.Services
 {
@@ -20,15 +21,18 @@ namespace AngularAndNetCoreAuth.Services
     {
         public void Authenticate();
 
-        public  int DebitWallet(string walletType, string senderName, string senderNumber, decimal amount,
+        public  int DebitWallet( string walletType, string senderName, string senderNumber, decimal amount,
             string transactionId, string remarks);
 
         public  string CreditWallet(string walletType, string receipientName, string receipientNumber,
             decimal amount, string transactionId, string remarks);
 
         public string GetTransactionStatus(string walletType, string transactionId);
+        public string Find(Guid productId);
+        public string vodaAirtel(string phone);
 
-        
+        public string SendPaymentToSRMS(string indexNo,decimal amount,string accountNumber,string feeType,string transactionId,DateTime transactionDate);
+
     }
 
      
