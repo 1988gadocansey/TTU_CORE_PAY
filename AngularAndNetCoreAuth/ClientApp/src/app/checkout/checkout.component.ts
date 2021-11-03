@@ -106,7 +106,7 @@ export class CheckoutComponent implements OnInit {
     )
     //window.location.reload()
     // window.location.href="/transactions";
-    this.loading = false;
+    //this.loading = false;
   }
 
 
