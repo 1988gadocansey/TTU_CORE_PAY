@@ -1,0 +1,262 @@
+
+body, h1, h2, h3, p {
+    font-family: 'Quicksand'
+}
+
+body, html {
+    height: auto;
+    width: 100%;
+    /* overflow:hidden;*/
+    margin: 0;
+    padding: 0;
+    position: fixed;
+}
+
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.container, .container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+}
+
+@media (max-width: 996px) {
+    body, html {
+        text-align: center;
+        margin-left: -5px;
+        overflow: auto;
+        position: absolute;
+    }
+}
+
+
+img, #uglogo {
+    margin-top: 8%;
+    padding-left: 27px;
+}
+
+.clean-block .clean-hero {
+    object-fit: contain;
+    height: 100vh;
+    /*width:100vh;*/
+    background-position: center;
+    color: rgba(25, 75, 201, 0);
+
+}
+
+.clean-block.clean-hero:before {
+
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    opacity: 0;
+    z-index: 1;
+}
+
+a.btn.btn-account {
+    border-color: white;
+    border-radius: 26px;
+
+    color: white;
+    background-color: transparent;
+    /*width: 160px;*/
+}
+
+
+a.btn.btn-account:hover {
+    border-color: white;
+    border-radius: 26px;
+    transition-timing-function: ease-in;
+    transition: 0.10s;
+    color: grey;
+    background-color: white;
+    box-shadow: 6px 15px 8px 0 rgba(0, 0, 0, 0.05);
+    width: 160px;
+}
+
+
+#txt1 {
+
+    float: inherit;
+    color: white;
+    padding-top: 40%;
+    text-align: center;
+}
+
+#txt2 {
+
+    float: inherit;
+    color: white;
+    margin-left: 30%;
+    padding-top: 2px;
+}
+
+
+h3, #hello {
+    font-weight: 600;
+    font-size: 24px;
+    margin-left: 20px;
+    margin-top: 36px;
+}
+
+#hello {
+    color: #485A78;
+}
+
+p {
+    font-family: 'Average Sans';
+    margin-left: 20px;
+    font-weight: 100;
+}
+
+#ugadmission {
+    color: rgb(255, 255, 255);
+    margin-left: 30px;
+    padding-top: 15px;
+}
+
+#inputField {
+    width: 74%;
+    background-color: transparent;
+    margin-left: 18px;
+    border-radius: 6px;
+}
+
+@media (max-width: 996px) {
+    #inputField, #uglogo {
+        margin-left: 13%;
+    }
+}
+
+.inputFieldName1 {
+    /* margin-top:10px; */
+    font-size: 15px;
+    font-weight: bold;
+    color: #485A78;
+
+}
+
+.inputFieldName {
+    /* margin-top:10px; */
+    font-size: 15px;
+    font-weight: bold;
+    color: #485A78;
+}
+
+.btn .bnt-primary, #login {
+    margin-top: 20px;
+    border-radius: 1px;
+    /* width:184px; */
+    background-color: #2E4875;
+    box-shadow: 6px 15px 27px 0 #E1E6FF;
+    /*border-color:rgb(177,151,100);*/
+    margin-left: 19px;
+}
+
+
+#forgotPassword {
+    color: rgb(179, 151, 100);
+    /*float:left;*/
+    text-decoration: none;
+    margin-left: 187px;
+    font-size: 10px;
+    padding-top: 11px;
+}
+
+.clean-block.clean-hero {
+    color: rgb(82, 33, 33);
+}
+
+.clean-block.clean-hero h1 {
+    color: white;
+    font-weight: 400;
+    font-family: 'Montserrat';
+    /*float:right;*/
+}
+
+#ugrow {
+    margin-top: 28px;
+    width: auto;
+    height: auto;
+}
+
+#rowFooter {
+    margin-top: 100px !important;
+    height: 49px;
+}
+
+#footerContent {
+    color: white;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-top: 13px;
+}
+
+.col-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    /*display:initial;*/
+}
+
+@media screen
+and (max-width: 1000px) {
+    #imageColumn {
+        display: none;
+    }
+}
+
+@media screen
+and (max-width: 1000px) {
+    #uglogo, #ugadmission {
+        justify-content: center;
+    }
+}
+
+
+@media screen
+and (max-width: 1000px)
+and (max-width: 576px) {
+    #imageColumn {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+        display: none;
+    }
+}
+
+footer.row, #rowFooter {
+    background-color: #f1f3ff;
+    width: auto;
+    height: auto;
+    padding: 0;
+    height: 50px;
+}
+
+
+#footerContent {
+    color: #656C94;
+    position: inherit;
+    padding: 0;
+}
+
+
