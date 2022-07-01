@@ -3,6 +3,7 @@ import {Link, NavLink} from 'react-router-dom';
 import './AppHeader.css';
 
 class AppHeader extends Component {
+
     render() {
         return (
             <header className="app-header">
@@ -23,14 +24,7 @@ class AppHeader extends Component {
                                     </ul>
                                 ): (
                                     <></>
-                                   /* <ul>
-                                        <li>
-                                            <NavLink to="/login">Login</NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink to="/signup">Signup</NavLink>
-                                        </li>
-                                    </ul>*/
+
                                 )}
                         </nav>
                     </div>

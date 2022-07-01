@@ -1,9 +1,15 @@
 import React from 'react';
+import {Spin} from "antd";
 
 export default function LoadingIndicator(props) {
     return (
-        <div className="loading-indicator" style={{display: 'block', textAlign: 'center', marginTop: '30px'}}>
-            Loading ...
-        </div>
+
+   <center> <Spin tip="Loading...">
+       {/* <Alert
+            message="Alert message title"
+            description="Further details about the context of this alert."
+            type="info"
+        />*/}
+    </Spin></center>
     );
 }

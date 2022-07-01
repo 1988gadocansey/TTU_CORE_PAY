@@ -5,9 +5,14 @@ import NavBar from "./NavBar";
 import 'antd/dist/antd.css';
 import './layout.css';
 import { Col, Row, Typography, Button } from 'antd';
-import PoweroffOutlined from '@ant-design/icons/lib/icons/PoweroffOutlined'
 import AppLogo from "./AppLogo";
 import Breadcrumbs from "./Breadcrumbs";
+import {connect} from "react-redux";
+import {getUser} from "../actions/users/UserActions";
+import {NavLink, withRouter} from "react-router-dom";
+import {ACCESS_TOKEN} from "../constants";
+import Alert from "react-s-alert";
+import {PoweroffOutlined} from "@ant-design/icons";
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -18,27 +23,59 @@ const handleLogout = () => {
  return alert("logout....")
 }
  class Main extends React.Component {
+     constructor(props) {
+         super(props);
+         this.handleLogout = this.handleLogout.bind(this);
+     }
     state = {
         collapsed: false,
+        username: ''
     };
 
     onCollapse = collapsed => {
         console.log(collapsed);
         this.setState({ collapsed });
     };
+     componentDidMount() {
+        this.setState({username:"Gadoo"})
+
+     }
+   handleLogout=()=>{
+       localStorage.removeItem(ACCESS_TOKEN);
+       this.setState({
+           authenticated: false,
+           currentUser: null
+       });
+       //Alert.success("You're safely logged out!");
+       //this.history.push('/')
+       this.props.history.push('/');
+
+   }
+   handleCustomerClick(customer) {
+         this.history.push(`/customers/${customer.id}`);
+     }
 
     render() {
         const { collapsed } = this.state;
         return (
-
-
             <Layout style={{ minHeight: '100vh' }}>
 
-                 <NavBar/>
+                 <NavBar  authenticated={this.state.authenticated}
+                          currentUser={this.state.currentUser}/>
                 <Layout className="site-layout" >
 
                     <Header className="site-layout-background" style={{ padding: 0 }} >
-                        <div style={{float:"right",marginRight:"50px"}}>user account..</div>
+
+                        { this.props.authenticated ? (
+                            <div style={{float:"right",marginRight:"50px"}}>
+                                <span>Hi  {this.props.currentUser.name}! </span>
+                                <span style={{marginLeft:10}}><PoweroffOutlined style={{ fontSize: '20px', color: '#08c' }} onClick={this.handleLogout}/></span>
+                            </div>
+
+                        ): (
+                            <></>
+
+                        )}
                     </Header>
                     <Content style={{ margin: '0 16px' }}>
                          <Breadcrumbs/>
@@ -55,4 +92,13 @@ const handleLogout = () => {
 }
 
 
-export default Main
+
+/*const mapStateToProps = (state) => ({
+    user: state.users.data
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    data: (payload) => dispatch(getUser(payload)),
+})*/
+export default  withRouter (Main);
+

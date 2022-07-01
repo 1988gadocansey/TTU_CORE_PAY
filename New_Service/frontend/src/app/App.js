@@ -17,6 +17,10 @@ import './App.css';
 import Public from "../public/Public";
 import Main from "../layout/Main";
 import Dashboard from "../dashboard/Dashboard";
+import Transactions from "../transactions/Transactions";
+import Pay from "../pay/Pay";
+import checkout from "../checkout/Checkout";
+import Checkout from "../checkout/Checkout";
 
 class App extends Component {
     constructor(props) {
@@ -69,7 +73,8 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" component={Public}></Route>
                 </Switch>
-                <Main>
+                <Main  authenticated={this.state.authenticated}
+                       currentUser={this.state.currentUser}>
                     {/*  <div className="app-top-box">
           <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
         </div>*/}
@@ -79,12 +84,24 @@ class App extends Component {
                         <PrivateRoute path="/profile" authenticated={this.state.authenticated}
                                       currentUser={this.state.currentUser}
                                       component={Profile}></PrivateRoute>
+                        <PrivateRoute exact path="/checkout/:productId" component={Checkout} authenticated={this.state.authenticated}
+                                      currentUser={this.state.currentUser}></PrivateRoute>
+
                         <PrivateRoute path="/dashboard" authenticated={this.state.authenticated}
                                       currentUser={this.state.currentUser}
                                       component={Dashboard}></PrivateRoute>
+                        <PrivateRoute path="/transactions" authenticated={this.state.authenticated}
+                                      currentUser={this.state.currentUser}
+                                      component={Transactions}></PrivateRoute>
+                        <PrivateRoute path="/pay" authenticated={this.state.authenticated}
+                                      currentUser={this.state.currentUser}
+                                      component={Pay}></PrivateRoute>
+
                         <Route path="/login"
                                render={(props) => <Login
-                                   authenticated={this.state.authenticated} {...props} />}></Route>
+                                   authenticated={this.state.authenticated} {...props} />}>
+
+                        </Route>
                         <Route path="/signup"
                                render={(props) => <Signup
                                    authenticated={this.state.authenticated} {...props} />}></Route>
