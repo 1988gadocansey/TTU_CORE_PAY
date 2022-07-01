@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 @Getter
@@ -37,9 +38,9 @@ public class Product implements Serializable {
     @NotNull
     private String currency;
     @NotNull
-    private LocalDateTime startDate;
+    private LocalDate startDate;
     @NotNull
-    private  LocalDateTime endDate;
+    private  LocalDate endDate;
     @NotNull
     private  String bank;
     @NotNull

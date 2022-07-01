@@ -1,4 +1,4 @@
-package com.ttu.pay.responses;
+package com.ttu.pay.payload;
 
 public class SMSResponse {
    private String responseCode;

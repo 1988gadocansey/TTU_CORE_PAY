@@ -4,14 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Details {
-  /*  private String status;
-    private String receiverTransId;
-    private String receiverAccountName;
-    private String receiverAccountNumber;
-    private String senderName;
-    private String senderNumber;
-    private String senderTransId;*/
-    private String cb_msg;
+   private String cb_msg;
     private LocalDateTime cb_date;
     private  String cb_code;
     private String cb_system_msg;

@@ -1,4 +1,4 @@
-package com.ttu.pay.responses;
+package com.ttu.pay.payload;
 
 import com.ttu.pay.model.Details;
 
