@@ -1,6 +1,7 @@
 import { Types } from './Types'
 import API from "../../util/api";
 export const  getUser= (dispatch) => async () => {
+    return new Promise(async (resolve, reject) => {
     await API.get('/user/me')
         .then((res) => {
             dispatch({
@@ -8,12 +9,12 @@ export const  getUser= (dispatch) => async () => {
                 payload: res.data
             })
 
+            resolve()
         }).catch((err) => {
-            console.log("error",err)
+            reject(err)
         })
-    
+    })
 
 }
-
 
  

@@ -24,26 +24,47 @@ import {Content} from "antd/es/layout/layout";
 import {Option} from "antd/es/mentions";
 import LoadingIndicator from "../common/LoadingIndicator";
 import {FaCcMastercard, FaCcVisa} from "react-icons/all";
+import {getStudent} from "../actions/students/StudentActions";
 
 const Checkout = () => {
-    const [amount,setAmount]=useState()
-    const [paymentOption,setPaymentOption]=useState()
+    const [amount, setAmount] = useState()
+    const [paymentOption, setPaymentOption] = useState()
     const dispatch = useDispatch()
     const location = useLocation();
     const [form] = Form.useForm()
     const {productId} = useParams()
     const {Paragraph} = Typography;
+    const [loading, setLoading] = useState(false);
     const products = useSelector((state) => state.products.records);
-    const students = useSelector((state) => state.users.data);
+    const users = useSelector((state) => state.users.data);
+    const student = useSelector((state) => state.student.data);
+
     useEffect(
-              getSingle(productId, dispatch)
+        getUser(dispatch),
+
+
+        [],
+    )
+
+
+    useEffect(
+        getSingle(productId, dispatch)
         , [productId]
     )
-    const amountChange =(e)=> {
-         setAmount(e.target.value);
+    useEffect(
+        getStudent("BTPMT20185@ttu.edu.gh", dispatch)
+        , []
+    )
+    console.log("user email is" + users.email)
+
+    const amountChange = (e) => {
+        setAmount(e.target.value);
     }
-    const PayOptionChange = (e) =>{
+    const PayOptionChange = (e) => {
         setPaymentOption(e.target.value)
+    }
+    if (loading) { // checking for empty url here.
+        return <LoadingIndicator/>
     }
     // it is equal to yourData
     /*const handleDelete = (id) => {
@@ -59,15 +80,15 @@ const Checkout = () => {
             })
         })
     }*/
-    const onSave= async () =>{
+    const onSave = async () => {
         message.success('Processing payment...')
-      /* return( <Spin tip="Loading...">
-            <Alert
-                message="Alert message title"
-                description="Further details about the context of this alert."
-                type="info"
-            />
-        </Spin>)*/
+        /* return( <Spin tip="Loading...">
+              <Alert
+                  message="Alert message title"
+                  description="Further details about the context of this alert."
+                  type="info"
+              />
+          </Spin>)*/
     }
     const onFinish = async (values) => {
         values.id = id
@@ -104,11 +125,11 @@ const Checkout = () => {
             span: 16,
         },
     };
-    if(Object.keys(products).length === 0 ){
+    if (Object.keys(products).length === 0) {
         return (
             <LoadingIndicator/>
         )
-    }else{
+    } else {
         return (
             <>
                 <div className="ant-card-body">
@@ -120,11 +141,13 @@ const Checkout = () => {
                     </Breadcrumb>
                 </div>
                 <center><h5>Checkout</h5>
-                    <Paragraph> Make sure every info on this page is accurate.Transactions are not reversible..</Paragraph>
+                    <Paragraph> Make sure every info on this page is accurate.Transactions are not
+                        reversible..</Paragraph>
                 </center>
 
 
                 <Row>
+
                     <Col xs={{span: 5, offset: 1}} lg={{span: 12, offset: 2}}>
                         <div className="ant-card">
                             <div className="ant-card-body">
@@ -139,30 +162,37 @@ const Checkout = () => {
                                     }}
                                 >
 
+                                    <Form.Item name={'indexno'} initialValue={student.INDEXNO} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
                                     <Form.Item
-                                        label="Index Number"
+                                        label="Momo No"
+
                                         style={{
                                             marginBottom: 0,
                                         }}
 
                                     >
                                         <Form.Item
-                                            name="indexno"
+                                            name="phone"
                                             rules={[
                                                 {
-                                                    required: true,
+                                                    pattern: /^(?:\d*)$/,
+                                                    message: "Value should contain just number",
+                                                },
+                                                {
+                                                    pattern: /^[\d]{0,50}$/,
+                                                    message: "Value should be less than 10 character",
                                                 },
                                             ]}
-                                            initialValue={students.name}
+                                            validateTrigger="onBlur"
+                                            initialValue={student.TELEPHONENO}
                                             style={{
                                                 display: 'inline-block',
                                                 width: 'calc(50% - 8px)',
                                             }}
                                         >
-                                            <Input
-                                                disabled={true}
-
-                                            />
+                                            <Input/>
                                         </Form.Item>
                                         <Form.Item
                                             name="amount"
@@ -192,9 +222,6 @@ const Checkout = () => {
                                     </Form.Item>
 
 
-
-
-
                                 </Form>
                             </div>
                         </div>
@@ -205,7 +232,7 @@ const Checkout = () => {
                                 <h4>Your Cart</h4>
                                 <Row>
                                     <Alert
-                                        message= <Paragraph><b>Payment for: {products.name}</b></Paragraph>
+                                        message=<Paragraph><b>Payment for: {products.name}</b></Paragraph>
                                     description={products.instructions}
                                     type="info"
                                     showIcon
@@ -214,7 +241,8 @@ const Checkout = () => {
                                     <Paragraph><b>Amount due: GHS{amount}</b></Paragraph>
                                     <Divider orientation="left"></Divider>
                                     <Form.Item label=" " colon={false}>
-                                        <Button disabled={!amount||!paymentOption} onClick={onSave} type="primary" htmlType="submit">
+                                        <Button disabled={!amount || !paymentOption} onClick={onSave} type="primary"
+                                                htmlType="submit">
                                             Pay
                                         </Button>
                                     </Form.Item>

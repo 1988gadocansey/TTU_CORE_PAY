@@ -10,12 +10,12 @@ const Pay = () => {
     const history = useHistory()
     const [loading, setLoading] = useState()
     const [form] = Form.useForm()
-    const {id} = useParams()
+    //const {id} = useParams()
 
     const [paymentType, setPaymentType] = useState()
 
     const products = useSelector((state) => state.products.data);
-    useEffect(getProducts(dispatch), [products])
+    useEffect(getProducts(dispatch), [])
     const productObject = Array.from(products)
     const productOptions = productObject.map((data) =>
         <Select.Option key={data.id}>{data.name} </Select.Option>
@@ -42,23 +42,7 @@ const Pay = () => {
         setPaymentType(values)
 
     }
-    const submit = async (values) => {
-        values.id = id
-        let newValue = {}
-        if (values.dateOfBirth) {
-            newValue = {...values, dateOfBirth: values.dateOfBirth.format('YYYY-MM-DD')}
-        } else {
-            newValue = {...values}
-        }
-        await dispatch(getProducts(newValue)).then((res) => {
-            message.success('Data Saved')
-            setLoading(false)
-        }).catch((e) => {
-            console.log(e)
-            message.warning('Could not save data! Make sure required fields have value')
-        })
-        setLoading(false)
-    }
+
 
     return (
         <div>

@@ -1,6 +1,7 @@
 import { Types } from './Types'
 import API from "../../util/api";
 export const  getProducts = (dispatch) => async () => {
+    return new Promise(async (resolve, reject) => {
     await API.get('/products/index')
         .then((res) => {
             dispatch({
@@ -8,26 +9,29 @@ export const  getProducts = (dispatch) => async () => {
                 payload: res.data
             })
 
+            resolve()
         }).catch((err) => {
-            console.log("error",err)
+            reject(err)
         })
+    })
     
 
 }
 
 export const  getSingle = (id,dispatch) => async () => {
-    console.log("data is " + id)
-    await API.get('/products/'+id)
-        .then((res) => {
-            dispatch({
-                type: Types.GET_SINGLE_PRODUCT,
-                payload: res.data
+    return new Promise(async (resolve, reject) => {
+        await API.get('/products/' + id)
+            .then((res) => {
+                dispatch({
+                    type: Types.GET_SINGLE_PRODUCT,
+                    payload: res.data
+                })
+
+                resolve()
+            }).catch((err) => {
+                reject(err)
             })
-
-        }).catch((err) => {
-            console.log("error",err)
-        })
-
+    })
 
 }
 
