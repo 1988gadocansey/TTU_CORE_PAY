@@ -68,6 +68,15 @@ public class Payment implements Serializable {
     @NotNull
     public User user;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @NotNull
+    private Product product;
+
+    public @NotNull Providers getWalletType() {
+        return walletType;
+    }
+
     public UUID getId() {
         return id;
     }
