@@ -61,22 +61,27 @@ public class PaymentController {
             // if momo request to the prudential server is ok() i.e. 200 then lets get trans status
             var transactionStatus = momoService.GetTransactionStatus(payment.getWalletType().toString(), transactionId.toString());
             //JSONSerializer serializer = new JSONSerializer().prettyPrint(true); // pretty print JSON
-            JSONSuccessResponse responseBody = body.as(JSONSuccessResponse.class);
 
-            paymentRepository.save(payment);
-            switch (transactionStatus) {
+
+            switch (transactionStatus.getStatus()) {
                 case "0":
+                    // if pbl deduct money from wallet successfully then lets save the payment and send payload to srms
+                    paymentRepository.save(payment);
                     // send data to srms
-                    if (momoService.SendPaymentToSRMS(payment.getIndexno(), payment.getAmount(), accountNumber, payment.getProduct().getName(), transactionId.toString(), payment.getTransactionDate()) == 0) {
+                    if (momoService.SendPaymentToSRMS(payment.getIndexno(), payment.getAmount(), accountNumber, payment.getProduct().getName(), transactionId.toString(), payment.getTransactionDate()) == "01") {
                         return new ResponseEntity<>(payment, HttpStatus.OK);
+
                     } else {
                         logger.info("Error reaching TTU Fee payment server.");
-                        return new ResponseEntity<>(payment, HttpStatus.BAD_GATEWAY);
+                        return new ResponseEntity<>(payment, HttpStatus.BAD_REQUEST);
                     }
-                    break;
                 case "1":
                     logger.info("Payment transaction processing failed.");
                     return new ResponseEntity<>(payment, HttpStatus.BAD_REQUEST);
+                case "2":
+                    logger.info("Exception occurred.");
+                    return new ResponseEntity<>(payment, HttpStatus.INTERNAL_SERVER_ERROR);
+
 
             }
 

@@ -1,24 +1,20 @@
 package com.ttu.pay.services;
 
-import com.ttu.pay.controller.StudentController;
 import com.ttu.pay.model.Product;
 import com.ttu.pay.payload.PBLResponse;
-import com.ttu.pay.payload.StudentResponse;
 import com.ttu.pay.repository.ProductRepository;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Base64;
-import java.util.Optional;
 import java.util.UUID;
-
+@Component
 public class MomoService implements Momo {
     private static String url = "https://digihub.prudentialbank.com.gh/MobileMoneyPayment/api/Transaction";
     private final String clientAuth = "AD411E74-28C2-4BF9-8F9D-D5B7E22F9226";
@@ -84,7 +80,7 @@ public class MomoService implements Momo {
     }
 
     @Override
-    public ResponseEntity<PBLResponse> GetTransactionStatus(String walletType, String transactionId) {
+    public PBLResponse GetTransactionStatus(String walletType, String transactionId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setBasicAuth(username, password);
@@ -94,10 +90,10 @@ public class MomoService implements Momo {
         requestObject.put("walletType", walletType);
         requestObject.put("transactionId", transactionId);
         HttpEntity<JSONObject> object = new HttpEntity<>(requestObject, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(debitUrl, object, String.class);
+        ResponseEntity<PBLResponse> response = restTemplate.postForEntity(debitUrl, object, PBLResponse.class);
 
 
-        return new ResponseEntity<>(PBLResponse, response.toString());
+        return response.getBody();
     }
 
     @Override
@@ -114,7 +110,7 @@ public class MomoService implements Momo {
     }
 
     @Override
-    public int SendPaymentToSRMS(String indexNo, BigDecimal amount, String accountNumber, String feeType, String transactionId, LocalDateTime transactionDate) {
+    public String SendPaymentToSRMS(String indexNo, BigDecimal amount, String accountNumber, String feeType, String transactionId, LocalDateTime transactionDate) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         //headers.setBasicAuth(username, password);
@@ -128,6 +124,6 @@ public class MomoService implements Momo {
         requestObject.put("auth", srmsAuth);
         HttpEntity<JSONObject> object = new HttpEntity<>(requestObject, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(debitUrl, object, String.class);
-        return response.getStatusCodeValue();
+        return response.getBody();
     }
 }
