@@ -17,4 +17,17 @@ export const  getUser= (dispatch) => async () => {
 
 }
 
- 
+export const fetchUser = (dispatch) => () => {
+    return new Promise((resolve, reject) => {
+        API.get('/user/me').then((res) => {
+            dispatch({
+                type: Types.GET_USER,
+                payload: res.data
+            })
+            resolve()
+        }).catch((err) => {
+            console.log(err.toString())
+            reject(err)
+        })
+    })
+}

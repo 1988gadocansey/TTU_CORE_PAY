@@ -16,7 +16,7 @@ import {
 } from 'antd'
 import {useDispatch, useSelector} from "react-redux";
 import {getProducts, getSingle} from "../actions/products/ProductActions";
-import {clearPage} from "../actions/checkouts/CheckoutActions";
+import {checkOut, clearPage} from "../actions/checkouts/CheckoutActions";
 import {useHistory, useParams} from "react-router-dom/cjs/react-router-dom";
 import {getUser} from "../actions/users/UserActions";
 import {useLocation} from "react-router-dom";
@@ -24,7 +24,7 @@ import {Content} from "antd/es/layout/layout";
 import {Option} from "antd/es/mentions";
 import LoadingIndicator from "../common/LoadingIndicator";
 import {FaCcMastercard, FaCcVisa} from "react-icons/all";
-import {getStudent} from "../actions/students/StudentActions";
+import {fetchStudent, getStudent, getStudentData} from "../actions/students/StudentActions";
 
 const Checkout = () => {
     const [amount, setAmount] = useState()
@@ -36,27 +36,43 @@ const Checkout = () => {
     const {Paragraph} = Typography;
     const [loading, setLoading] = useState(false);
     const products = useSelector((state) => state.products.records);
-    const users = useSelector((state) => state.users.data);
+    const user= useSelector((state) => state.users.data);
     const student = useSelector((state) => state.student.data);
 
-    useEffect(
-        getUser(dispatch),
 
+    useEffect(() => {
+        const data = async () => {
+           // setLoading(true);
+            await dispatch(getUser(dispatch));
+           // setLoading(false);
+        };
+        data();
+    }, [dispatch]);
 
-        [],
-    )
 
 
     useEffect(
         getSingle(productId, dispatch)
         , [productId]
     )
-    useEffect(
-        getStudent("BTPMT20185@ttu.edu.gh", dispatch)
-        , []
-    )
-    console.log("user email is" + users.email)
+    useEffect(() => {
+        const data = async () => {
+            setLoading(true);
+            await dispatch(fetchStudent("0718000624@ttu.edu.gh",dispatch));
+            setLoading(false);
+        };
+        data();
+    }, [dispatch]);
 
+    // Case 1
+   /* useEffect(() => {
+        getStudentData("0718000624@ttu.edu.gh",dispatch) // printed only once when component is mounted
+    }, [])*/
+
+
+
+
+    //console.log("student data is " + student.EMAIL)
     const amountChange = (e) => {
         setAmount(e.target.value);
     }
@@ -66,45 +82,25 @@ const Checkout = () => {
     if (loading) { // checking for empty url here.
         return <LoadingIndicator/>
     }
-    // it is equal to yourData
-    /*const handleDelete = (id) => {
-        dispatch(deleteElection(id)).then(() => {
-            notification.success({
-                message: 'Success',
-                description: 'Election Deleted'
-            })
-        }).catch((error) => {
-            notification.warning({
-                message: 'Warning',
-                description: error.response.data
-            })
-        })
-    }*/
-    const onSave = async () => {
-        message.success('Processing payment...')
-        /* return( <Spin tip="Loading...">
-              <Alert
-                  message="Alert message title"
-                  description="Further details about the context of this alert."
-                  type="info"
-              />
-          </Spin>)*/
+    const saveData = () => {
+        // Use values here
+        setLoading(true)
+        submit(form.getFieldsValue()).then(() => console.log(form.getFieldsValue()))
+        //alert("finish");
+
+
     }
-    const onFinish = async (values) => {
-        values.id = id
-        let newValue = {}
-        if (values.dateOfBirth) {
-            newValue = {...values, dateOfBirth: values.dateOfBirth.format('YYYY-MM-DD')}
-        } else {
-            newValue = {...values}
-        }
-        await dispatch(getProducts(newValue)).then((res) => {
-            message.success('Data Saved')
+    const submit = async (values) => {
+        message.success('Processing payment...')
+
+        await dispatch(checkOut(values)).then((res) => {
+            message.success('Transaction complete log on to records.ttuportal.com to check status.')
             setLoading(false)
         }).catch((e) => {
             console.log(e)
-            message.warning('Could not save data! Make sure required fields have value')
+            message.error('Could not complete transaction. Try again later.')
         })
+
         setLoading(false)
     }
     const validateMessages = {
@@ -116,6 +112,22 @@ const Checkout = () => {
         number: {
             range: '${label} must be between ${min} and ${max}',
         },
+    };
+    const generateUUID = () => {
+        let
+            d = new Date().getTime(),
+            d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            let r = Math.random() * 16;
+            if (d > 0) {
+                r = (d + r) % 16 | 0;
+                d = Math.floor(d / 16);
+            } else {
+                r = (d2 + r) % 16 | 0;
+                d2 = Math.floor(d2 / 16);
+            }
+            return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+        });
     };
     const layout = {
         labelCol: {
@@ -152,8 +164,9 @@ const Checkout = () => {
                         <div className="ant-card">
                             <div className="ant-card-body">
                                 <Form
+                                    form={form}
                                     name="complex-form"
-                                    onFinish={onFinish}
+                                    onFinish={saveData}
                                     labelCol={{
                                         span: 8,
                                     }}
@@ -165,6 +178,44 @@ const Checkout = () => {
                                     <Form.Item name={'indexno'} initialValue={student.INDEXNO} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
+
+                                    <Form.Item name={'level'} initialValue={student.LEVEL} hidden={false}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'name'} initialValue={student.NAME} hidden={false}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+
+                                    <Form.Item name={'email'} initialValue={student.EMAIL} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'bank'} initialValue={'Prudential'} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'academicYear'} initialValue={'2022/2023'} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+
+                                    <Form.Item name={'status'} initialValue={'true'} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'transactionId'} initialValue={generateUUID()} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'bankDate'} initialValue={'2022-08-30'} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'users'} initialValue={'3'} hidden={true}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+                                    <Form.Item name={'product'} initialValue={products.code} hidden={false}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+
+                                    <Form.Item name={'paymentRemarks'} initialValue={products.name} hidden={false}>
+                                        <Input type="text"/>
+                                    </Form.Item>
+
                                     <Form.Item
                                         label="Momo No"
 
@@ -213,11 +264,11 @@ const Checkout = () => {
                                         </Form.Item>
                                     </Form.Item>
 
-                                    <Form.Item name="radio-group" label="Pay using Momo">
+                                    <Form.Item name="walletType" label="Pay using Momo">
                                         <Radio.Group onChange={PayOptionChange}>
-                                            <Radio value="mtn">MTN</Radio>
-                                            <Radio value="airteltigo">AirtelTigo </Radio>
-                                            <Radio value="vodafone">VodaCash</Radio>
+                                            <Radio value="MTN">MTN</Radio>
+                                            <Radio value="AIRTELTIGO">AirtelTigo </Radio>
+                                            <Radio value="VODAFONE">VodaCash</Radio>
                                         </Radio.Group>
                                     </Form.Item>
 
@@ -241,7 +292,7 @@ const Checkout = () => {
                                     <Paragraph><b>Amount due: GHS{amount}</b></Paragraph>
                                     <Divider orientation="left"></Divider>
                                     <Form.Item label=" " colon={false}>
-                                        <Button disabled={!amount || !paymentOption} onClick={onSave} type="primary"
+                                        <Button disabled={!amount || !paymentOption} onClick={saveData} type="primary"
                                                 htmlType="submit">
                                             Pay
                                         </Button>

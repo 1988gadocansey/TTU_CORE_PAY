@@ -18,7 +18,7 @@ const Pay = () => {
     useEffect(getProducts(dispatch), [])
     const productObject = Array.from(products)
     const productOptions = productObject.map((data) =>
-        <Select.Option key={data.id}>{data.name} </Select.Option>
+        <Select.Option key={data.code}>{data.name} </Select.Option>
     );
 
     const saveData = (values) => {
