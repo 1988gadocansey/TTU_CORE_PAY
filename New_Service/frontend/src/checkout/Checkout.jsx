@@ -179,10 +179,10 @@ const Checkout = () => {
                                         <Input type="text"/>
                                     </Form.Item>
 
-                                    <Form.Item name={'level'} initialValue={student.LEVEL} hidden={false}>
+                                    <Form.Item name={'level'} initialValue={student.LEVEL} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
-                                    <Form.Item name={'name'} initialValue={student.NAME} hidden={false}>
+                                    <Form.Item name={'name'} initialValue={student.NAME} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
 
@@ -208,11 +208,11 @@ const Checkout = () => {
                                     <Form.Item name={'users'} initialValue={'3'} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
-                                    <Form.Item name={'product'} initialValue={products.code} hidden={false}>
+                                    <Form.Item name={'product'} initialValue={products.code} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
 
-                                    <Form.Item name={'paymentRemarks'} initialValue={products.name} hidden={false}>
+                                    <Form.Item name={'paymentRemarks'} initialValue={products.name} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
 
