@@ -42,6 +42,7 @@ const handleLogout = () => {
      }
    handleLogout=()=>{
        localStorage.removeItem(ACCESS_TOKEN);
+       localStorage.removeItem("email");
        this.setState({
            authenticated: false,
            currentUser: null
@@ -51,11 +52,7 @@ const handleLogout = () => {
        this.props.history.push('/');
 
    }
-   handleCustomerClick(customer) {
-         this.history.push(`/customers/${customer.id}`);
-     }
-
-    render() {
+     render() {
         const { collapsed } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>

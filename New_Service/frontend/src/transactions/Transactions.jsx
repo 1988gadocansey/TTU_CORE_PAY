@@ -2,26 +2,32 @@ import React, {useEffect, useState} from "react";
 import {Col, Typography, Table} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import LoadingIndicator from "../common/LoadingIndicator";
-import {getTransactions} from "../actions/transactions/TransactionsActions";
-import { data } from "../util/Data";
+import API from "../util/api";
 const Transactions =()=>{
     const {Paragraph} = Typography;
     const [loading, setLoading] = useState(false);
-    const transactions= useSelector((state) => state.transactions.data);
+    const records= useSelector((state) => state.transactions.data);
     const dispatch = useDispatch();
+    const [user, setUser] = useState([]);
+    const [transactions, setTransactions] =useState([]);
     useEffect(() => {
-        const data = async () => {
-            setLoading(true);
-            await dispatch(getTransactions("0718000624",dispatch));
-            setLoading(false);
-        };
-        data();
-    }, [dispatch]);
-    if (loading) { // checking for empty url here.
+        API.get('/user/me').then((response) => {
+            setUser(response.data);
+        });
+    }, [])
+
+    useEffect(() => {
+        API.get('/payments/' + user.email).then((response) => {
+            setTransactions(response.data);
+        });
+    }, [])
+
+    if (loading) {
         return <LoadingIndicator/>
     }
 
    const columns = [
+
         {
             key: "name",
             title: "Name",
@@ -48,9 +54,9 @@ const Transactions =()=>{
             dataIndex: "transactionDate",
         },
         {
-            key: "transactionId",
+            key: "status",
             title: "Status",
-            dataIndex: "transactionId",
+            dataIndex: "status",
         },
     ]
 
@@ -61,7 +67,7 @@ const Transactions =()=>{
                     <div className="ant-card-body">
                         <center><Paragraph><b>Transactions</b></Paragraph></center>
                         <div className="table">
-                            <Table dataSource={transactions} columns={columns} pagination={true} />
+                            <Table   dataSource={transactions} columns={columns} pagination={true} />
 
                         </div>
 

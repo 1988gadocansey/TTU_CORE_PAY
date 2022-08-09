@@ -6,6 +6,8 @@ import {Avatar, Row} from "antd";
 class Profile extends Component {
     constructor(props) {
         super(props);
+        localStorage.setItem('email', this.props.currentUser.email);
+
         console.log(props);
     }
 

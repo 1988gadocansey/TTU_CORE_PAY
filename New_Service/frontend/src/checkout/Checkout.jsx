@@ -18,13 +18,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {getProducts, getSingle} from "../actions/products/ProductActions";
 import {checkOut, clearPage} from "../actions/checkouts/CheckoutActions";
 import {useHistory, useParams} from "react-router-dom/cjs/react-router-dom";
-import {getUser} from "../actions/users/UserActions";
 import {useLocation} from "react-router-dom";
-import {Content} from "antd/es/layout/layout";
-import {Option} from "antd/es/mentions";
 import LoadingIndicator from "../common/LoadingIndicator";
-import {FaCcMastercard, FaCcVisa} from "react-icons/all";
-import {fetchStudent, getStudent, getStudentData} from "../actions/students/StudentActions";
+import {fetchStudent} from "../actions/students/StudentActions";
+import API from "../util/api";
+import axios from "axios";
 
 const Checkout = () => {
     const [amount, setAmount] = useState()
@@ -36,20 +34,12 @@ const Checkout = () => {
     const {Paragraph} = Typography;
     const [loading, setLoading] = useState(false);
     const products = useSelector((state) => state.products.records);
-    const user= useSelector((state) => state.users.data);
+    //const user= useSelector((state) => state.users.data);
     const student = useSelector((state) => state.student.data);
-
-
-    useEffect(() => {
-        const data = async () => {
-           // setLoading(true);
-            await dispatch(getUser(dispatch));
-           // setLoading(false);
-        };
-        data();
-    }, [dispatch]);
-
-
+    const email = localStorage.getItem('email');
+    //const [datas, setData] = useState([]);
+    const [datas, setData] = useState([]);
+    console.log("email from storage" + email)
 
     useEffect(
         getSingle(productId, dispatch)
@@ -58,18 +48,18 @@ const Checkout = () => {
     useEffect(() => {
         const data = async () => {
             setLoading(true);
-            await dispatch(fetchStudent("0718000624@ttu.edu.gh",dispatch));
+            await dispatch(fetchStudent(email, dispatch));
             setLoading(false);
         };
         data();
-    }, [dispatch]);
-
-    // Case 1
-   /* useEffect(() => {
-        getStudentData("0718000624@ttu.edu.gh",dispatch) // printed only once when component is mounted
-    }, [])*/
+    }, [setData]);
 
 
+    const bankDate = () => {
+        const today = new Date();
+        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        return date
+    }
 
 
     //console.log("student data is " + student.EMAIL)
@@ -202,10 +192,10 @@ const Checkout = () => {
                                     <Form.Item name={'transactionId'} initialValue={generateUUID()} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
-                                    <Form.Item name={'bankDate'} initialValue={'2022-08-30'} hidden={true}>
+                                    <Form.Item name={'bankDate'} initialValue={bankDate()} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
-                                    <Form.Item name={'users'} initialValue={'3'} hidden={true}>
+                                    <Form.Item name={'users'} initialValue={datas.id} hidden={true}>
                                         <Input type="text"/>
                                     </Form.Item>
                                     <Form.Item name={'product'} initialValue={products.code} hidden={true}>
